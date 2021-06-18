@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/jaani/databases/EmployeeDB",
+      "type": "mssql.azure",
+      "connectionId": "EmployeeAppCon",
+      "secretStore": "AzureAppSettings"
+    }
+  }
+}
