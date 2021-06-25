@@ -25,20 +25,12 @@ namespace WebAPI.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            string query = @"
-                        SELECT id,firstName,
-                        lastName,
-                        dob,
-                        telephone,
-                        email,
-                        maritalStatus,
-                        city,
-                        remark FROM dbo.EmployeeDetails";
+            string query = @"EXEC [dbo].[spEmployeeDetails] 'G'";
             return database(query);
 
         }
 
-        [HttpGet("city/{id}")]
+/*        [HttpGet("city/{id}")]
         public JsonResult Get(int id)
         {
             string query = @"
@@ -47,47 +39,39 @@ namespace WebAPI.Controllers
                         FROM dbo.EmployeeDetails where city="+id+"";
             return database(query);
 
-        }
+        }*/
 
         [HttpPost]
         public JsonResult Post(EmployeeDetails emp)
         {
-            string query = @"
-                        INSERT INTO dbo.EmployeeDetails(firstName,
-                        lastName,
-                        dob,
-                        telephone,
-                        email,
-                        maritalStatus,
-                        city,
-                        remark) values('" + emp.firstName + @"',
-                                                        '" + emp.lastName + @"',
-                                                        '" + emp.dob + @"',
-                                                        '" + emp.telephone + @"',
-                                                        '" + emp.email + @"',
-                                                        '" + emp.maritalStatus + @"',
-                                                        '" + emp.city + @"',
-                                                        '" + emp.remark + @"'
-                                                        )
-                                                        ";
+            string query = @"EXEC [dbo].[spEmployeeDetails] 'I', 0,
+            
+            '" + emp.firstName + @"',
+            '" + emp.lastName + @"',
+            '" + emp.dob + @"',
+            '" + emp.telephone + @"',
+            '" + emp.email + @"',
+            '" + emp.maritalStatus + @"',
+            '" + emp.city + @"',
+            '" + emp.remark + @"'
+            ";
             return database(query);
         }
 
         [HttpPut("{id}")]
         public JsonResult Put(EmployeeDetails emp,int id)
         {
-            string query = @"
-                        update dbo.EmployeeDetails set 
+            string query = @"EXEC [dbo].[spEmployeeDetails] 'U',
+                        " + id + @",
+                        '" + emp.firstName + @"',
+                        '" + emp.lastName+ @"',
+                        '" + emp.dob + @"',
+                         " + emp.telephone + @",
+                        '" + emp.email + @"',
+                        '" + emp.maritalStatus + @"',
+                        '" + emp.city + @"',
+                        '" + emp.remark + @"'";
 
-                        firstName='" + emp.firstName + @"',
-                        lastName = '"+emp.lastName+ @"',
-                        dob = '" + emp.dob + @"',
-                        email='" + emp.email + @"',
-                        maritalStatus ='" + emp.maritalStatus + @"',
-                        city = '" + emp.city + @"',
-                        remark = '" + emp.remark + @"'
-                        where id = '" + id+ @"'
-                        ";
             return database(query);
 
         }
@@ -95,24 +79,14 @@ namespace WebAPI.Controllers
         [HttpDelete("{id}")]
         public JsonResult Delete(int id)
         {
-            string query = @"
-                        delete from dbo.EmployeeDetails 
-                        where id = '" + id + @"'
-                        ";
+            string query = @"EXEC [dbo].[spEmployeeDetails] 'D'," + id + @"";
             return database(query);
         }
 
         [HttpGet("{id}")]
         public JsonResult GetEmployee(int id)
         {
-            string query = @"SELECT firstName,
-                        lastName,
-                        dob,
-                        telephone,
-                        email,
-                        maritalStatus,
-                        city,
-                        remark FROM dbo.EmployeeDetails where id="+id+@""; 
+            string query = @"EXEC [dbo].[spEmployeeDetails] 'GE',"+ id +@""; 
 
             
             return database(query);
